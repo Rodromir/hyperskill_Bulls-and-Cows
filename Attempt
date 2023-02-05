@@ -1,0 +1,30 @@
+package bullscows;
+
+public class Attempt {
+    private int bulls = 0;
+    private int cows = 0;
+    public Attempt(String guess, StringBuilder secretCode) {
+        char[] guessArray = guess.toCharArray();
+        char[] codeArray = secretCode.toString().toCharArray();
+        for (int i = 0; i < guess.length(); i++) {
+            if (guessArray[i] == codeArray[i]) {
+                this.bulls++;
+            } else {
+                for (char ch : guessArray) {
+                    if (ch == codeArray[i]) {
+                        this.cows++;
+                    }
+
+                }
+
+            }
+
+        }
+    }
+    public void printResult() {
+        System.out.printf("Grade: %d bull(s) and %d cow(s)\n", bulls, cows);
+    }
+    public int getBulls() {
+        return bulls;
+    }
+}
