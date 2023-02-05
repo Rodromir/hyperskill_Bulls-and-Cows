@@ -1,0 +1,61 @@
+package bullscows;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+        // game setup
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter the code length:");
+        String lengthString = input.nextLine();
+        if (lengthString.length() > 2) {
+            System.out.println("Error: too many characters.");
+            System.exit(0);
+        }
+        int codeLength = Integer.parseInt(lengthString);
+        System.out.println("Please enter number of possible characters:");
+        String charsString = input.nextLine();
+        int possibleChars = Integer.parseInt(charsString);
+        errorHandler(codeLength, possibleChars);
+        Game game = new Game(codeLength, possibleChars);
+
+        // game play
+        System.out.print("The secret is prepared: ");
+        System.out.print(game.getHiddenCode());
+        System.out.println(" " + game.getRange());
+        System.out.println("Here we go!");
+        int turnCounter = 1;
+        while (!game.isSolved()) {
+            System.out.println("Turn " + turnCounter);
+            turnCounter++;
+            Attempt guess = new Attempt(String.valueOf(input.next()), game.getSecretCode());
+            guess.printResult();
+            if (guess.getBulls() == codeLength) {
+                game.setSolved();
+            }
+
+        }
+    }
+
+    public static void errorHandler(int codeLength, int possibleChars) {
+        if (codeLength > 36) {
+            System.out.println("Error: code too long.");
+            System.exit(0);
+        }
+        if (codeLength < 1) {
+            System.out.println("Error: code must be at least 1 character.");
+            System.exit(0);
+        }
+        if (possibleChars < codeLength) {
+            System.out.println("Error: number of possible characters too low.");
+            System.exit(0);
+        }
+        if (possibleChars > 36) {
+            System.out.println("Error: max possible characters is 36");
+            System.exit(0);
+        }
+
+
+
+    }
+}
