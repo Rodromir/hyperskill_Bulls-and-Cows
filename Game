@@ -1,0 +1,58 @@
+package bullscows;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+
+public class Game {
+    private static final char[] allChars = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f',
+    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    private final StringBuilder secretCode;
+    private final char[] hiddenCode;
+    private final StringBuilder range = new StringBuilder("(0-");
+    private boolean solved = false;
+    public Game(int codeLength, int possibleChars) {
+        // generating code
+        secretCode = new StringBuilder();
+        List<Character> usedCharacters = new ArrayList<>();
+        while (this.secretCode.length() != codeLength) {
+            Random random = new Random();
+            int number = random.nextInt(possibleChars);
+            char ch = allChars[number];
+            if (usedCharacters.contains(ch)) {
+                continue;
+            } else {
+                this.secretCode.append(ch);
+                usedCharacters.add(ch);
+            }
+        }
+        // defining range
+        if (codeLength >= 10) {
+            range.append("9, a-");
+        }
+        range.append(allChars[possibleChars - 1]);
+        range.append(")");
+
+        // defining hidden code
+        hiddenCode = new char[codeLength];
+        Arrays.fill(hiddenCode, '*');
+
+    }
+    public boolean isSolved() {
+        return solved;
+    }
+    public void setSolved() {
+        solved = true;
+    }
+    public StringBuilder getSecretCode() {
+        return secretCode;
+    }
+
+    public StringBuilder getRange() {
+        return range;
+    }
+
+    public char[] getHiddenCode() {
+        return hiddenCode;
+    }
+}
